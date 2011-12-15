@@ -53,19 +53,19 @@ class Book:
                 else: pass
     #enddef
     def __repr__(self):
-        return str(self.__dict__)
+        return unicode(str(self.__dict__))
     #enddef
 #endclass
 
 def create_book(entry):
     '''Transforms Tellico's entries into python dictionaries'''
     try: 
-        authors = "; ".join([i.text for i in list(entry.find(ns+"authors").iterfind(ns+"author")) ])
+        authors = unicode("; ").join([i.text for i in list(entry.find(ns+"authors").iterfind(ns+"author")) ])
     except AttributeError: authors = ""
     att = []
     for at in attributes:
         try:
-            att.append(entry.find(ns+at).text)
+            att.append(unicode(entry.find(ns+at).text))
         except AttributeError: att.append("")
     return Book(att[0],
                 authors,
@@ -100,8 +100,8 @@ def bookLabel(book):
     f = copen(fileout, mode="w", encoding="utf-8")
     #f = open(fileout, "w")
     td = tdTemplate % {'image':im,
-                       'title':escape(book.title),
-                       'author':escape(book.author),
+                       'title':unicode(escape(book.title)),
+                       'author':unicode(escape(book.author)),
                        'ID':book.ID,
                        'location':" ".join([book.location, book.shelf])}
     f.write(td)
@@ -155,8 +155,10 @@ def typesetLabels(labelList):
     f.close()
     a = Popen("trml2pdf %s > ./labels.pdf" %realpath("./tmp/labels.rml"),
                shell=True)
-    a = Popen("rm -r ./tmp", shell=True)
 #enddef
+
+def cleanTmp():
+    return Popen("rm -r ./tmp", shell=True)
 
 ####################################################################
 attributes = ["title", "isbn", "id", "location", "shelf"]
@@ -184,7 +186,7 @@ def test():
     b = bookLabel(a)
     print b
     
-    a = allbooks[:29]
+    a = allbooks
     print ("first 4 books in a")
     
     b = makeLabelList(a)

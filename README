@@ -1,0 +1,41 @@
+tellicoLabel.py
+Create PDF labels from Tellico book collections.
+
+Copyright 2011(C) Jacopo Nespolo <j.nespolo@gmail.com>
+
+This file is part of tellicoLabel.
+
+tellicoLabel is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+tellicoLabel is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with tellicoLabel.  If not, see <http://www.gnu.org/licenses/>.
+
+##############################################################################
+
+This is a simple script I wrote in order to generate labels for the books I
+catalogued using Tellico (tellico-project.org).
+
+As it's been written to solve my personal problem, it is not very universal 
+and some things, like the input file name, are still hardcoded. Furthermore,
+I used a non standard Tellico book collections with some custom fields added
+to it, namely to track the location of the books in my house (room and shelf).
+
+I'm however publishing these few lines of code as it should be pretty easy for
+anyone facing a similar task to tweak the code to her/his needs.
+
+The labels contain a QRcode, the title, author and location, and the output is
+in PDF format.
+
+The input of the script is the Tellico collection exported as XML.
+For ease of testing, I am including my current catalogue in libri.xml.
+
+Enjoy!
+JN

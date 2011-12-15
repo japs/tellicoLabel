@@ -123,6 +123,7 @@ def typesetLabels(labelList):
         the file is compiled and if everything goes well the 
         ./tmp and all its content is deleted.
         the pdf file is saved in ./labels.pdf
+        The ./tmp directory is removed after pdf generation.
     '''
     labels = []
     for l in labelList:
@@ -154,6 +155,7 @@ def typesetLabels(labelList):
     f.close()
     a = Popen("trml2pdf %s > ./labels.pdf" %realpath("./tmp/labels.rml"),
                shell=True)
+    a = Popen("rm -r ./tmp", shell=True)
 #enddef
 
 ####################################################################

@@ -16,9 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with tellicoLabel.  If not, see <http://www.gnu.org/licenses/>.
 
-labelTemplate = unicode('''<?xml version="1.0" encoding="iso-8859-1" standalone="no" ?>
+labelTemplate = unicode('''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE document SYSTEM "rml.dtd">
-<document filename="example_12.pdf">
+<document filename="labels.pdf">
 
 <template>
     <pageTemplate id="main">

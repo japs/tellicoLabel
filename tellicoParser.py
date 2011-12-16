@@ -22,7 +22,7 @@ from Image import Image
 from bookLabelTemplates import labelTemplate, tdTemplate
 from os.path import exists, realpath
 from os import mkdir
-from subprocess import Popen
+from subprocess import call
 from codecs import open as copen
 from xml.sax.saxutils import escape
 
@@ -36,26 +36,28 @@ class Book:
         self.shelf = shelf
     #enddef
     
-    def bookFilter(self, string, **kwargs):
+    def bookFilter(self, string):
         ''' filters the book for string.
-            optionally the fields to filter can be passed
-            e.g. bookFilter("pattern", title, author)
         '''
-        if len(kwargs)==0:
-            for i in range(len(self.__dict__)):
-                if string.lower() in self.__dict__.values()[i].lower():
-                    return self
-                else: pass
-        else:
-            for key in kwargs.keys():
-                if string in self.keys:
-                    return self
-                else: pass
+        for value in self.__dict__.values():
+            if (string.lower() in value.lower())==True:
+                return self
+        return None
     #enddef
+    
     def __repr__(self):
         return unicode(str(self.__dict__))
     #enddef
 #endclass
+
+def filterBookList(booklist, pattern):
+    l = []
+    for b in booklist:
+        a = b.bookFilter(pattern)
+        if a != None:
+            l.append(a)
+    return l
+#endef
 
 def create_book(entry):
     '''Transforms Tellico's entries into python dictionaries'''
@@ -153,14 +155,26 @@ def typesetLabels(labelList):
     a = unicode(labelTemplate % unicode(text))
     f.write(a)
     f.close()
-    a = Popen("trml2pdf %s > ./labels.pdf" %realpath("./tmp/labels.rml"),
+    a = call("trml2pdf %s > ./labels.pdf" %realpath("./tmp/labels.rml"),
                shell=True)
 #enddef
 
 def cleanTmp():
-    return Popen("rm -r ./tmp", shell=True)
+    return call("rm -r ./tmp", shell=True)
+#enddef
+
+def createLabels(bookList):
+    ''' This is simply a shortcut to automate the process.
+        It takes a list of book objects in input, creates the
+        labels and clean temporary files.
+    '''
+    typesetLabels(makeLabelList(bookList))
+    cleanTmp()
+#enddef
 
 ####################################################################
+
+# parsing happens here
 attributes = ["title", "isbn", "id", "location", "shelf"]
 tree = ElementTree()
 tree.parse("./libri.xml")
@@ -175,22 +189,9 @@ allbooks = []
 
 for entry in entries:
     allbooks.append(create_book(entry))
+# end parsing
 
 
-a = allbooks[0]
-
-def test():
-    a = allbooks[0]
-    print a
-    
-    b = bookLabel(a)
-    print b
-    
-    a = allbooks
-    print ("first 4 books in a")
-    
-    b = makeLabelList(a)
-    print b
-    
-    typesetLabels(b)
+def createAllLabels():
+    typesetLabels(makeLabelList(allbooks))
 #enddef

@@ -85,7 +85,7 @@ def bookQr(book):
     '''
     if not exists('./tmp'):
         mkdir('./tmp')
-    filename = "./tmp/%s.png" %unicode(book.ID)
+    filename = "./tmp/%s.jpg" %unicode(book.ID)
     fileout = open(filename, 'w')
     im = encode_scaled(unicode(book.__repr__()), 2)[2]
     im.save(fileout)
